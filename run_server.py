@@ -122,5 +122,5 @@ if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8081)
     # HTTPS version
     # A compléter  : nécessité de déplacer les bons fichiers vers ce répertoire
-    # app.run(debug=True, host="0.0.0.0", port=8081, ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
+     # app.run(debug=True, host="0.0.0.0", port=8081, ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
 
