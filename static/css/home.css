@@ -36,7 +36,7 @@ form{
 }
 
 input{
-    width: 350px;
+    width: 450px;
     height: 70px;
     font-size: 40px;
 }
@@ -47,10 +47,15 @@ input{
     height: 70px;
     border: none;
     background-color: lightgray;
+    margin: 10px;
 }
 
 .bouton:hover{
     color: white;
     background-color: darkred;
+}
+
+.colo{
+    color: green;
 }
 

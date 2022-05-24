@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter User</title>
+    <link rel="stylesheet" href="./static/css/home.css">
 </head>
 <body>
 
-<h1>Bienvenu super User ajoute un menbre</h1>
+<h1 class="colo">Bienvenu super User ajoute un menbre</h1>
 
 <form action="/addOk" method="post">
   Utilisateur :
@@ -19,7 +20,7 @@
 
 </form>
 
-{{info}}
+<p>{{info}}</p>
 
 <form action="/" method="post">
 <input type="submit" name="decon" value="Déconnexion" class="bouton">

@@ -106,7 +106,7 @@ def addSuper():
     rows3 = cur3.fetchall()
     conn3.close()
     if rows3[0][0] != 0:
-        return render_template('addUser.html', info="Deja le meme id")
+        return render_template('addUser.html', info="Un utilisateur a déjà le même nom d'utilisateur")
     else:
         conn2 = sqlite3.connect('myDB.db')
         cur2 = conn2.cursor()
