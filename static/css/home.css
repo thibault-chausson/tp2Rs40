@@ -1,0 +1,56 @@
+h1{
+    text-align: center;
+    color: darkred;
+    padding-bottom: 30px;
+    font-size: 60px;
+}
+
+h2{
+    color: red;
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(243,244,246);
+}
+
+p{
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 30px;
+}
+
+.couleur{
+    color: aqua;
+}
+
+.adieu{
+    text-align: center;
+}
+
+form{
+    text-align: center;
+    font-size: 30px;
+}
+
+input{
+    width: 350px;
+    height: 70px;
+    font-size: 40px;
+}
+
+.bouton{
+    color: darkred;
+    font-size: 40px;
+    height: 70px;
+    border: none;
+    background-color: lightgray;
+}
+
+.bouton:hover{
+    color: white;
+    background-color: darkred;
+}
+

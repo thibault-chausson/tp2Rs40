@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion utra-secrète</title>
+    <link rel="stylesheet" href="./static/css/home.css">
+</head>
+<body>
+
+<h1>Bienvenu sur le site du club</h1>
+
+<form action="/motDePasse" method="post">
+  Utilisateur :
+  <input type="text" name='username' autofocus  placeholder="Nom d'utilisateur"><br><br>
+  Mot de passe :
+
+  <input  type="password" name='password'  placeholder="Mot de passe"><br><br>
+
+    <input class="bouton" type="submit" value="Connexion">
+
+</form>
+
+<h2>{{info}}</h2>
+
+</body>
+</html>
