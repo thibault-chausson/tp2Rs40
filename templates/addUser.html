@@ -6,5 +6,24 @@
 </head>
 <body>
 
+<h1>Bienvenu super User ajoute un menbre</h1>
+
+<form action="/addOk" method="post">
+  Utilisateur :
+  <input type="text" name='username' autofocus  placeholder="Nom d'utilisateur"><br><br>
+  Mot de passe :
+
+  <input  type="password" name='password'  placeholder="Mot de passe"><br><br>
+
+    <input class="bouton" type="submit" value="Ajoute">
+
+</form>
+
+{{info}}
+
+<form action="/" method="post">
+<input type="submit" name="decon" value="Déconnexion" class="bouton">
+</form>
+
 </body>
 </html>
