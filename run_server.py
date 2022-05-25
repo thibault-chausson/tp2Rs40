@@ -9,17 +9,35 @@ import pem
 from flask import Flask, render_template, request
 from build import SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME
 import sqlite3
+import hashlib as ha
+import random
+import string
+
+tailleSel=15
+
+def getSel(length):
+    """Générer une chaîne aléatoire de longueur fixe"""
+    str = string.ascii_lowercase
+    return ''.join(random.choice(str) for i in range(length))
+
+
+def passPlusSel (pwd, sel):
+    tout = pwd+sel
+    print(tout)
+    res = ha.sha256(tout.encode(encoding='UTF-8', errors='strict')).hexdigest()
+    return res
 
 
 
 #conn = sqlite3.connect('myDB.db')
 #cur = conn.cursor()
 #reqSup = "DELETE FROM log WHERE userName='jean'"
-#reqLog = "create table log (id integer primary key autoincrement, userName text, pass text)"
+#reqLog = "create table log (id integer primary key autoincrement, userName text unique , pass text, sel text)"
 #reqAdd="insert into log (userName, pass) values ('jean', 'pierre')"
-#reqSuperLog = "create table superLog (id integer primary key autoincrement, userName text, pass text)"
-#reqSuperAdd="insert into log (userName, pass) values ('tibo2', 'arti')"
-#cur.execute(reqSuperAdd)
+#reqSuperLog = "create table superLog (id integer primary key autoincrement, userName text unique , pass text, sel text)"
+#reqSuperAdd="insert into superLog (userName, pass, sel) values (?,?,?)"
+#reqDrop = "DROP TABLE log"
+#cur.execute(reqSuperAdd,  ('tibo',password,sel))
 #conn.commit()
 #conn.close()
 
@@ -45,9 +63,6 @@ def aller():
 
 
 
-database = {'jean': 'pierre', 'christophe': 'voyage', 'dider': 'paul'}
-
-
 @app.route('/motDePasse', methods=['POST', 'GET'])
 def login():
     name1 = request.form['username']
@@ -62,10 +77,10 @@ def login():
     else:
         conn3 = sqlite3.connect('myDB.db')
         cur3 = conn3.cursor()
-        cur3.execute("SELECT pass FROM log WHERE userName=?", (name1,))
+        cur3.execute("SELECT pass, sel FROM log WHERE userName=?", (name1,))
         rows3 = cur3.fetchall()
         conn3.close()
-        if rows3[0][0] != pwd:
+        if rows3[0][0] != passPlusSel(pwd,rows3[0][1]):
             return render_template('login.html', info='Mot de passe invalide')
         else:
             return render_template('home.html', name=name1, code=SECRET_MESSAGE)
@@ -84,11 +99,11 @@ def loginSuper():
     else:
         conn3 = sqlite3.connect('myDB.db')
         cur3 = conn3.cursor()
-        cur3.execute("SELECT pass FROM superLog WHERE userName=?", (name1,))
+        cur3.execute("SELECT pass, sel FROM superLog WHERE userName=?", (name1,))
         rows3 = cur3.fetchall()
         conn3.close()
 
-        if rows3[0][0] != pwd:
+        if rows3[0][0] != passPlusSel(pwd,rows3[0][1]):
             return render_template('logSuperUser.html', info='Mot de passe invalide')
         else:
             return render_template('addUser.html', name=name1, code=SECRET_MESSAGE)
@@ -108,9 +123,10 @@ def addSuper():
     if rows3[0][0] != 0:
         return render_template('addUser.html', info="Un utilisateur a déjà le même nom d'utilisateur")
     else:
+        sel=getSel(tailleSel)
         conn2 = sqlite3.connect('myDB.db')
         cur2 = conn2.cursor()
-        cur2.execute("insert into log (userName, pass) values (? , ?)", (name1,pwd))
+        cur2.execute("insert into log (userName, pass, sel) values (? , ?,?)", (name1,passPlusSel(pwd,sel),sel))
         conn2.commit()
         conn2.close()
         return render_template("addUser.html", info='Ok')
@@ -123,4 +139,5 @@ if __name__ == "__main__":
     # HTTPS version
     # A compléter  : nécessité de déplacer les bons fichiers vers ce répertoire
      # app.run(debug=True, host="0.0.0.0", port=8081, ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
+
 
