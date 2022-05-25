@@ -129,7 +129,7 @@ def addSuper():
         cur2.execute("insert into log (userName, pass, sel) values (? , ?,?)", (name1,passPlusSel(pwd,sel),sel))
         conn2.commit()
         conn2.close()
-        return render_template("addUser.html", info='Ok')
+        return render_template("addUser.html", info='Utilisateur ajouté')
 
 
 
