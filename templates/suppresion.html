@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Supprimer un utilisateur</title>
+    <link rel="stylesheet" href="./static/css/home.css">
+</head>
+<body>
+
+<h1>Supprimer un membre</h1>
+
+<form action="/suppress" method="post">
+  Utilisateur :
+  <input type="text" name='usernameSup' autofocus  placeholder="Nom d'utilisateur"><br><br>
+
+  <input class="bouton" type="submit" value="Supprimer">
+
+</form>
+
+<p>{{info2}}</p>
+
+
+
+<form action="/" method="post">
+<input type="submit" name="decon" value="Déconnexion" class="bouton">
+</form>
+
+</body>
+</html>

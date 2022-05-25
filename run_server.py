@@ -31,13 +31,13 @@ def passPlusSel (pwd, sel):
 
 #conn = sqlite3.connect('myDB.db')
 #cur = conn.cursor()
-#reqSup = "DELETE FROM log WHERE userName='jean'"
+#reqSup = "DELETE FROM log WHERE userName=''"
 #reqLog = "create table log (id integer primary key autoincrement, userName text unique , pass text, sel text)"
 #reqAdd="insert into log (userName, pass) values ('jean', 'pierre')"
 #reqSuperLog = "create table superLog (id integer primary key autoincrement, userName text unique , pass text, sel text)"
 #reqSuperAdd="insert into superLog (userName, pass, sel) values (?,?,?)"
 #reqDrop = "DROP TABLE log"
-#cur.execute(reqSuperAdd,  ('tibo',password,sel))
+#cur.execute(reqSup)
 #conn.commit()
 #conn.close()
 
@@ -60,7 +60,9 @@ def aller():
     return render_template("logSuperUser.html")
 
 
-
+@app.route('/logSup', methods=['POST', 'GET'])
+def supp():
+    return render_template("logSupp.html")
 
 
 @app.route('/motDePasse', methods=['POST', 'GET'])
@@ -109,10 +111,34 @@ def loginSuper():
             return render_template('addUser.html', name=name1, code=SECRET_MESSAGE)
 
 
+@app.route('/conSup', methods=['POST', 'GET'])
+def loginSup():
+    name1 = request.form['username']
+    pwd = request.form['password']
+    conn2 = sqlite3.connect('myDB.db')
+    cur2 = conn2.cursor()
+    cur2.execute("SELECT COUNT(pass) FROM superLog WHERE userName=?", (name1,))
+    rows2 = cur2.fetchall()
+    conn2.close()
+    if rows2[0][0] == 0:
+        return render_template('logSupp.html', info='Utilisateur inconnu')
+    else:
+        conn3 = sqlite3.connect('myDB.db')
+        cur3 = conn3.cursor()
+        cur3.execute("SELECT pass, sel FROM superLog WHERE userName=?", (name1,))
+        rows3 = cur3.fetchall()
+        conn3.close()
+
+        if rows3[0][0] != passPlusSel(pwd,rows3[0][1]):
+            return render_template('logSupp.html', info='Mot de passe invalide')
+        else:
+            return render_template('suppresion.html', name=name1, code=SECRET_MESSAGE)
+
 @app.route('/addOk', methods=['POST', 'GET'])
 def addSuper():
-    print("laaaa")
+
     name1 = request.form['username']
+
     pwd = request.form['password']
 
     conn3 = sqlite3.connect('myDB.db')
@@ -121,7 +147,7 @@ def addSuper():
     rows3 = cur3.fetchall()
     conn3.close()
     if rows3[0][0] != 0:
-        return render_template('addUser.html', info="Un utilisateur a déjà le même nom d'utilisateur")
+        return render_template('addUser.html', info1="Un utilisateur a déjà le même nom d'utilisateur")
     else:
         sel=getSel(tailleSel)
         conn2 = sqlite3.connect('myDB.db')
@@ -129,7 +155,33 @@ def addSuper():
         cur2.execute("insert into log (userName, pass, sel) values (? , ?,?)", (name1,passPlusSel(pwd,sel),sel))
         conn2.commit()
         conn2.close()
-        return render_template("addUser.html", info='Utilisateur ajouté')
+        return render_template("addUser.html", info1='Utilisateur ajouté')
+
+
+
+
+@app.route('/suppress', methods=['POST', 'GET'])
+def supprimer():
+    nameSup = request.form['usernameSup']
+    conn4 = sqlite3.connect('myDB.db')
+    cur4 = conn4.cursor()
+    cur4.execute("SELECT COUNT(pass) FROM log WHERE userName=?", (nameSup,))
+    rows4 = cur4.fetchall()
+    conn4.close()
+    print("Salut")
+    print(rows4[0][0])
+    if rows4[0][0] == 0:
+        print("2")
+        return render_template('suppresion.html', info2="Aucun utilisateur a ce nom")
+    else:
+        print("Salut")
+        conn5 = sqlite3.connect('myDB.db')
+        cur5 = conn5.cursor()
+        cur5.execute("DELETE FROM log WHERE userName=?", (nameSup,))
+        conn5.commit()
+        conn5.close()
+        return render_template("suppresion.html", info2='Utilisateur supprimé')
+
 
 
 
@@ -138,6 +190,6 @@ if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8081)
     # HTTPS version
     # A compléter  : nécessité de déplacer les bons fichiers vers ce répertoire
-     # app.run(debug=True, host="0.0.0.0", port=8081, ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
+     #app.run(debug=True, host="0.0.0.0", port=8081, ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
 
 

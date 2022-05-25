@@ -2,32 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter User</title>
+    <title>Connexion pour suppression</title>
     <link rel="stylesheet" href="./static/css/home.css">
 </head>
 <body>
 
-<h1 class="colo">Bienvenu super User </h1>
+<h1>Super User Suppression</h1>
 
-<h2>Ajouter un membre</h2>
-
-<form action="/addOk" method="post">
+<form action="/conSup" method="post">
   Utilisateur :
   <input type="text" name='username' autofocus  placeholder="Nom d'utilisateur"><br><br>
   Mot de passe :
 
   <input  type="password" name='password'  placeholder="Mot de passe"><br><br>
 
-    <input class="bouton" type="submit" value="Ajoute">
+    <input class="bouton" type="submit" value="Connexion">
 
 </form>
 
-<p>{{info1}}</p>
-
+<h2>{{info}}</h2>
 
 <form action="/" method="post">
-<input type="submit" name="decon" value="Déconnexion" class="bouton">
+<input type="submit" name="decon" value="Revenir accueil" class="bouton">
 </form>
+
 
 </body>
 </html>
